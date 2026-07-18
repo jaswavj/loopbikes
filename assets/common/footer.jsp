@@ -1,5 +1,8 @@
 <%
-String supportPhone = new finance.financeBean().getContactPhone();
+String footerSupportPhone = (String) request.getAttribute("supportPhone");
+if (footerSupportPhone == null) {
+    footerSupportPhone = new finance.financeBean().getContactPhone();
+}
 %>
 <footer class="lb-footer">
     <div class="container">
@@ -28,7 +31,7 @@ String supportPhone = new finance.financeBean().getContactPhone();
             </div>
             <div class="col-md-3">
                 <h5>Contact</h5>
-                <p><i class="fas fa-phone me-2"></i><%= supportPhone %></p>
+                <p><i class="fas fa-phone me-2"></i><%= footerSupportPhone %></p>
                 <p><i class="fas fa-envelope me-2"></i>info@loopbikes.in</p>
                 <p><i class="fas fa-map-marker-alt me-2"></i>Nagercoil, Tamil Nadu</p>
             </div>

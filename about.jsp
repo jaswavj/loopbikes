@@ -4,6 +4,7 @@ request.setAttribute("pageTitle", "About LoopBikes - Second Hand Bike Dealer Nag
 request.setAttribute("pageDesc", "LoopBikes is your trusted partner for buying, selling and financing second hand bikes in Nagercoil, Tirunelveli, Tuticorin and Kanyakumari district.");
 String ctx = request.getContextPath();
 String supportPhone = new finance.financeBean().getContactPhone();
+request.setAttribute("supportPhone", supportPhone);
 %>
 <!DOCTYPE html>
 <html lang="en">
