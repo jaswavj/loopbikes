@@ -17,13 +17,16 @@ String ctx = request.getContextPath();
 <%@ include file="/assets/common/navbar.jsp" %>
 <main>
     <section class="hero-section">
+        <div class="hero-bg" aria-hidden="true"></div>
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <h1 class="hero-title">Your Trusted Platform for <span>Second Hand Bikes</span></h1>
+                <div class="col-lg-7 hero-content">
+                    <h1 class="hero-title">Your Trusted Platform for <span class="hero-highlight">Second Hand Bikes</span></h1>
                     <p class="hero-subtitle">Buy, Sell or Finance quality pre-owned bikes in Nagercoil, Tirunelveli, Tuticorin &amp; nearby areas</p>
-                    <a href="<%= ctx %>/bikes/browse" class="btn btn-gold btn-lg me-2"><i class="fas fa-shopping-cart me-2"></i>Browse Bikes</a>
-                    <a href="<%= ctx %>/sell-bike" class="btn btn-navy btn-lg"><i class="fas fa-tag me-2"></i>Sell Your Bike</a>
+                    <div class="hero-actions">
+                        <a href="<%= ctx %>/bikes/browse" class="btn btn-gold btn-lg me-2"><i class="fas fa-shopping-cart me-2"></i>Browse Bikes</a>
+                        <a href="<%= ctx %>/sell-bike" class="btn btn-navy btn-lg"><i class="fas fa-tag me-2"></i>Sell Your Bike</a>
+                    </div>
                 </div>
             </div>
             <div class="feature-cards">

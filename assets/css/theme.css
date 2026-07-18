@@ -14,7 +14,9 @@
     --danger: #dc3545;
     --shadow: 0 4px 20px rgba(30, 58, 95, 0.12);
     --radius: 12px;
-    --transition: 0.25s ease;
+    --transition: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * { box-sizing: border-box; }
@@ -89,9 +91,14 @@ a:hover { color: var(--gold); }
 }
 
 .btn-gold:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(212,175,55,0.45);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 28px rgba(212,175,55,0.5);
     color: var(--navy-dark);
+}
+
+.btn-gold:active {
+    transform: translateY(-1px) scale(0.98);
+    transition-duration: 0.12s;
 }
 
 .btn-navy {
@@ -104,9 +111,66 @@ a:hover { color: var(--gold); }
     transition: all var(--transition);
 }
 
-.btn-navy:hover { background: var(--navy-light); color: var(--gold); }
+.btn-navy:hover {
+    background: var(--navy-light);
+    color: var(--gold);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.btn-navy:active {
+    transform: translateY(-1px) scale(0.98);
+    transition-duration: 0.12s;
+}
 
 /* Hero */
+@keyframes heroFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes heroBgKenBurns {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+    100% {
+        transform: scale(1.08) translate(-1.5%, -1%);
+    }
+}
+
+@keyframes cardFloatIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes sectionReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .hero-section {
     position: relative;
     min-height: 520px;
@@ -115,10 +179,16 @@ a:hover { color: var(--gold); }
     overflow: hidden;
     display: flex;
     align-items: center;
-    background:
-        linear-gradient(105deg, rgba(13, 27, 42, 0.62) 0%, rgba(30, 58, 95, 0.38) 42%, rgba(30, 58, 95, 0.22) 100%),
-        url('../img/bikelogo.jpeg') center center / cover no-repeat;
-    background-attachment: scroll;
+    background: transparent;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: -8%;
+    background: url('../img/bikelogo.jpeg') center center / cover no-repeat;
+    will-change: transform;
+    animation: heroBgKenBurns 22s var(--ease-smooth) infinite alternate;
+    z-index: 0;
 }
 
 .hero-section::before {
@@ -126,6 +196,7 @@ a:hover { color: var(--gold); }
     position: absolute;
     inset: 0;
     background:
+        linear-gradient(105deg, rgba(13, 27, 42, 0.62) 0%, rgba(30, 58, 95, 0.38) 42%, rgba(30, 58, 95, 0.22) 100%),
         radial-gradient(circle at 78% 35%, rgba(212, 175, 55, 0.14) 0%, transparent 50%),
         radial-gradient(circle at 15% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 45%);
     pointer-events: none;
@@ -152,21 +223,42 @@ a:hover { color: var(--gold); }
     z-index: 2;
 }
 
+.hero-content > * {
+    opacity: 0;
+    animation: heroFadeUp 1s var(--ease-out-soft) forwards;
+}
+
 .hero-title {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 800;
     margin-bottom: 1rem;
     line-height: 1.2;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75), 0 0 40px rgba(0, 0, 0, 0.35);
+    animation-delay: 0.1s;
 }
 
-.hero-title span { color: var(--gold); }
+.hero-title .hero-highlight {
+    color: white;
+    display: inline-block;
+}
 
 .hero-subtitle {
     font-size: 1.15rem;
-    opacity: 0.98;
+    opacity: 0;
     margin-bottom: 2rem;
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7), 0 0 24px rgba(0, 0, 0, 0.35);
+    animation-delay: 0.28s;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    animation-delay: 0.46s;
+}
+
+.hero-actions .btn {
+    transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s var(--ease-smooth), background 0.35s ease, color 0.35s ease;
 }
 
 .feature-cards {
@@ -185,21 +277,45 @@ a:hover { color: var(--gold); }
     padding: 1.5rem;
     text-align: center;
     color: white;
-    transition: all var(--transition);
+    opacity: 0;
+    transition:
+        transform 0.45s var(--ease-smooth),
+        background 0.45s var(--ease-smooth),
+        border-color 0.45s var(--ease-smooth),
+        box-shadow 0.45s var(--ease-smooth),
+        color 0.35s ease;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 8px 24px rgba(0, 0, 0, 0.2);
+    animation: cardFloatIn 0.9s var(--ease-out-soft) forwards;
 }
+
+.feature-card:nth-child(1) { animation-delay: 0.62s; }
+.feature-card:nth-child(2) { animation-delay: 0.78s; }
+.feature-card:nth-child(3) { animation-delay: 0.94s; }
 
 .feature-card:hover {
-    background: rgba(212, 175, 55, 0.18);
-    transform: translateY(-4px);
+    background: rgba(212, 175, 55, 0.22);
+    transform: translateY(-10px) scale(1.02);
     color: white;
     border-color: var(--gold);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 12px 32px rgba(0, 0, 0, 0.28);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        0 0 24px rgba(212, 175, 55, 0.2);
 }
 
-.feature-card i { font-size: 2rem; color: var(--gold); margin-bottom: 0.75rem; display: block; }
+.feature-card i {
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    display: block;
+    transition: transform 0.45s var(--ease-smooth);
+}
+
+.feature-card:hover i {
+    transform: scale(1.12) translateY(-2px);
+}
 
 /* Bike Cards */
 .bike-grid {
@@ -213,13 +329,25 @@ a:hover { color: var(--gold); }
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
-    transition: all var(--transition);
+    transition:
+        transform 0.45s var(--ease-smooth),
+        box-shadow 0.45s var(--ease-smooth),
+        border-color 0.35s ease;
     border: 1px solid transparent;
+    animation: sectionReveal 0.8s var(--ease-out-soft) backwards;
 }
 
+.bike-grid .bike-card:nth-child(1) { animation-delay: 0.05s; }
+.bike-grid .bike-card:nth-child(2) { animation-delay: 0.12s; }
+.bike-grid .bike-card:nth-child(3) { animation-delay: 0.19s; }
+.bike-grid .bike-card:nth-child(4) { animation-delay: 0.26s; }
+.bike-grid .bike-card:nth-child(5) { animation-delay: 0.33s; }
+.bike-grid .bike-card:nth-child(6) { animation-delay: 0.4s; }
+.bike-grid .bike-card:nth-child(n+7) { animation-delay: 0.47s; }
+
 .bike-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 40px rgba(30,58,95,0.18);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 44px rgba(30, 58, 95, 0.2);
     border-color: var(--gold-light);
 }
 
@@ -234,10 +362,10 @@ a:hover { color: var(--gold); }
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.6s var(--ease-smooth);
 }
 
-.bike-card:hover .bike-card-img img { transform: scale(1.05); }
+.bike-card:hover .bike-card-img img { transform: scale(1.08); }
 
 .bike-card-body { padding: 1.25rem; }
 
@@ -261,6 +389,15 @@ a:hover { color: var(--gold); }
 }
 
 /* Section */
+.container.py-5 > .section-title,
+.container.py-5 > .section-sub {
+    animation: sectionReveal 0.9s var(--ease-out-soft) backwards;
+}
+
+.container.py-5 > .section-sub {
+    animation-delay: 0.12s;
+}
+
 .section-title {
     font-size: 1.75rem;
     font-weight: 800;
@@ -391,18 +528,26 @@ a:hover { color: var(--gold); }
 .nav-tabs .nav-link.active { color: var(--navy); border-color: var(--gold) var(--gold) #fff; background: #fff; }
 .nav-tabs { border-bottom: 2px solid rgba(212,175,55,0.35); }
 
-/* SEO locations bar */
-.seo-locations {
-    background: var(--gold-light);
-    padding: 0.5rem 0;
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--navy);
-}
+@media (prefers-reduced-motion: reduce) {
+    .hero-bg,
+    .hero-content > *,
+    .feature-card,
+    .bike-card,
+    .container.py-5 > .section-title,
+    .container.py-5 > .section-sub {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
 
-.seo-locations span { margin: 0 0.5rem; }
+    .hero-bg {
+        inset: 0;
+        transform: none !important;
+    }
+}
 
 @media (max-width: 768px) {
     .lb-search { width: 100%; margin: 0.5rem 0; }
     .hero-section { padding: 2.5rem 0 3rem; }
+    .hero-actions .btn { width: 100%; margin-right: 0 !important; }
 }

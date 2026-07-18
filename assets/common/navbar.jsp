@@ -46,7 +46,3 @@ boolean isAdmin = "ADMIN".equals(sessionRole) || "1".equals(String.valueOf(sessi
         </div>
     </div>
 </nav>
-<div class="seo-locations">
-    <span><i class="fas fa-map-marker-alt"></i> Serving:</span>
-    <span>Nagercoil</span> | <span>Tirunelveli</span> | <span>Tuticorin</span> | <span>Kanyakumari</span> | <span>Marthandam</span> | <span>Tenkasi</span>
-</div>
