@@ -1,6 +1,5 @@
-<jsp:useBean id="fin" class="finance.financeBean" scope="page"/>
 <%
-String supportPhone = fin.getContactPhone();
+String supportPhone = new finance.financeBean().getContactPhone();
 %>
 <footer class="lb-footer">
     <div class="container">

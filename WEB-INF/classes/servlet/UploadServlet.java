@@ -13,17 +13,17 @@ public class UploadServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String ctx = req.getContextPath();
-        Long adminId = (Long) req.getSession().getAttribute("userId");
-        String role = (String) req.getSession().getAttribute("userRole");
-        boolean isSuper = "1".equals(String.valueOf(req.getSession().getAttribute("isSuperAdmin")));
-        if (adminId == null || (!"ADMIN".equals(role) && !isSuper)) {
-            resp.sendRedirect(ctx + "/login");
-            return;
-        }
-
         String action = req.getParameter("action");
+
         try {
             if ("uploadBike".equals(action)) {
+                Long adminId = (Long) req.getSession().getAttribute("userId");
+                String role = (String) req.getSession().getAttribute("userRole");
+                boolean isSuper = "1".equals(String.valueOf(req.getSession().getAttribute("isSuperAdmin")));
+                if (adminId == null || (!"ADMIN".equals(role) && !isSuper)) {
+                    resp.sendRedirect(ctx + "/login?msg=Admin+login+required");
+                    return;
+                }
                 bikeBean bike = new bikeBean();
                 String result = bike.uploadBike(
                     adminId,
@@ -47,14 +47,24 @@ public class UploadServlet extends HttpServlet {
                     resp.sendRedirect(ctx + "/admin/upload-bike?msg=" + java.net.URLEncoder.encode(result, "UTF-8"));
                 }
             } else if ("sellRequest".equals(action)) {
-                handleSellRequest(req, resp, ctx, adminId);
+                handleSellRequest(req, resp, ctx);
+            } else {
+                resp.sendRedirect(ctx + "/sell-bike?msg=Invalid+request");
             }
         } catch (Exception e) {
-            resp.sendRedirect(ctx + "/admin/upload-bike?msg=" + java.net.URLEncoder.encode("Error: " + e.getMessage(), "UTF-8"));
+            String msg = java.net.URLEncoder.encode("Error: " + e.getMessage(), "UTF-8");
+            if ("sellRequest".equals(action)) {
+                resp.sendRedirect(ctx + "/sell-bike?msg=" + msg);
+            } else {
+                resp.sendRedirect(ctx + "/admin/upload-bike?msg=" + msg);
+            }
         }
     }
 
-    private void handleSellRequest(HttpServletRequest req, HttpServletResponse resp, String ctx, Long userId) throws Exception {
+    private void handleSellRequest(HttpServletRequest req, HttpServletResponse resp, String ctx) throws Exception {
+        Long sessionUserId = (Long) req.getSession().getAttribute("userId");
+        long userId = sessionUserId != null ? sessionUserId.longValue() : 0;
+
         bike.sellRequestBean sell = new bike.sellRequestBean();
         String result = sell.submitRequest(
             userId,
@@ -66,10 +76,16 @@ public class UploadServlet extends HttpServlet {
             Double.parseDouble(req.getParameter("askingPrice")), req.getParameter("ownerType"),
             Integer.parseInt(req.getParameter("hasAccidentHistory")), req.getParameter("description")
         );
+
         if (result.startsWith("SUCCESS")) {
             String reqId = result.split(":")[1];
             uploadParts(req, "sell_request", Long.parseLong(reqId));
-            resp.sendRedirect(ctx + "/user/my-requests?msg=Sell+request+submitted");
+            String successMsg = "Sell+request+submitted+successfully.+We+will+contact+you+soon.";
+            if (sessionUserId != null) {
+                resp.sendRedirect(ctx + "/user/my-requests?msg=" + successMsg);
+            } else {
+                resp.sendRedirect(ctx + "/sell-bike?msg=" + successMsg);
+            }
         } else {
             resp.sendRedirect(ctx + "/sell-bike?msg=" + java.net.URLEncoder.encode(result, "UTF-8"));
         }

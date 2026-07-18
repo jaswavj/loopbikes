@@ -387,6 +387,10 @@ a:hover { color: var(--gold); }
 .page-header-bar h1 { font-weight: 800; margin: 0; }
 .page-header-bar p { opacity: 0.85; margin: 0.5rem 0 0; }
 
+.nav-tabs .nav-link { color: var(--navy); font-weight: 600; }
+.nav-tabs .nav-link.active { color: var(--navy); border-color: var(--gold) var(--gold) #fff; background: #fff; }
+.nav-tabs { border-bottom: 2px solid rgba(212,175,55,0.35); }
+
 /* SEO locations bar */
 .seo-locations {
     background: var(--gold-light);

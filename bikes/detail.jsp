@@ -2,7 +2,6 @@
 <%@ page import="java.util.*" %>
 <jsp:useBean id="bike" class="bike.bikeBean" scope="page"/>
 <jsp:useBean id="wish" class="bike.wishlistBean" scope="page"/>
-<jsp:useBean id="fin" class="finance.financeBean" scope="page"/>
 <%
 String ctx = request.getContextPath();
 String idParam = request.getParameter("id");
@@ -15,7 +14,7 @@ if (b.isEmpty()) { response.sendRedirect(ctx + "/bikes/browse"); return; }
 Long userId = (Long) session.getAttribute("userId");
 boolean inWishlist = userId != null && wish.isInWishlist(userId, Long.parseLong(b.get(0).toString()));
 Vector images = bike.getBikeImages(Long.parseLong(b.get(0).toString()));
-String phone = fin.getContactPhone();
+String phone = new finance.financeBean().getContactPhone();
 String title = b.get(1) + " " + b.get(2) + " " + b.get(4) + " - Second Hand Bike for Sale";
 request.setAttribute("pageTitle", title + " | LoopBikes Nagercoil");
 request.setAttribute("pageDesc", "Buy " + b.get(1) + " " + b.get(2) + " (" + b.get(4) + ") second hand bike at Rs." + b.get(8) + " in Nagercoil, Tirunelveli, Tuticorin. " + b.get(5) + " km, " + b.get(6) + " fuel.");

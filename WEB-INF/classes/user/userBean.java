@@ -67,19 +67,27 @@ public class userBean {
         }
     }
 
-    public Vector getAllUsers(int page, int size, String roleFilter) throws Exception {
+    public Vector getAllUsers(int page, int size, String roleFilter, String search, boolean superAdminOnly) throws Exception {
         Connection con = null;
         PreparedStatement pt = null;
         ResultSet rs = null;
         Vector data = new Vector();
         try {
             con = DBConnectionManager.getConnectionFromPool();
-            String sql = "SELECT id, phone_number, name, email, role, is_super_admin, created_at FROM users";
-            if (roleFilter != null && !roleFilter.isEmpty()) sql += " WHERE role=?";
-            sql += " ORDER BY id DESC LIMIT ? OFFSET ?";
-            pt = con.prepareStatement(sql);
+            StringBuilder sql = new StringBuilder("SELECT id, phone_number, name, email, role, is_super_admin, created_at FROM users WHERE is_super_admin=? ");
+            if (roleFilter != null && !roleFilter.isEmpty()) sql.append("AND role=? ");
+            if (search != null && !search.trim().isEmpty()) sql.append("AND (phone_number LIKE ? OR name LIKE ? OR email LIKE ?) ");
+            sql.append("ORDER BY id DESC LIMIT ? OFFSET ?");
+            pt = con.prepareStatement(sql.toString());
             int idx = 1;
+            pt.setInt(idx++, superAdminOnly ? 1 : 0);
             if (roleFilter != null && !roleFilter.isEmpty()) pt.setString(idx++, roleFilter);
+            if (search != null && !search.trim().isEmpty()) {
+                String q = "%" + search.trim() + "%";
+                pt.setString(idx++, q);
+                pt.setString(idx++, q);
+                pt.setString(idx++, q);
+            }
             pt.setInt(idx++, size);
             pt.setInt(idx, page * size);
             rs = pt.executeQuery();
@@ -106,22 +114,80 @@ public class userBean {
         return data;
     }
 
+    public int getUserCount(String roleFilter, String search, boolean superAdminOnly) throws Exception {
+        Connection con = null;
+        PreparedStatement pt = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnectionManager.getConnectionFromPool();
+            StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM users WHERE is_super_admin=? ");
+            if (roleFilter != null && !roleFilter.isEmpty()) sql.append("AND role=? ");
+            if (search != null && !search.trim().isEmpty()) sql.append("AND (phone_number LIKE ? OR name LIKE ? OR email LIKE ?) ");
+            pt = con.prepareStatement(sql.toString());
+            int idx = 1;
+            pt.setInt(idx++, superAdminOnly ? 1 : 0);
+            if (roleFilter != null && !roleFilter.isEmpty()) pt.setString(idx++, roleFilter);
+            if (search != null && !search.trim().isEmpty()) {
+                String q = "%" + search.trim() + "%";
+                pt.setString(idx++, q);
+                pt.setString(idx++, q);
+                pt.setString(idx++, q);
+            }
+            rs = pt.executeQuery();
+            int count = 0;
+            if (rs.next()) count = rs.getInt(1);
+            con.commit();
+            return count;
+        } catch (Exception e) {
+            if (con != null) con.rollback();
+            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (pt != null) pt.close();
+            if (con != null) con.close();
+        }
+    }
+
     public String grantAdmin(long userId) throws Exception {
-        return updateRole(userId, "ADMIN");
+        return updateRole(userId, "ADMIN", false);
     }
 
     public String revokeAdmin(long userId) throws Exception {
-        return updateRole(userId, "USER");
+        return updateRole(userId, "USER", false);
     }
 
-    private String updateRole(long userId, String role) throws Exception {
+    public String grantSuperAdmin(long userId) throws Exception {
+        return updateRole(userId, "ADMIN", true);
+    }
+
+    public String revokeSuperAdmin(long userId) throws Exception {
         Connection con = null;
         PreparedStatement pt = null;
         try {
             con = DBConnectionManager.getConnectionFromPool();
-            pt = con.prepareStatement("UPDATE users SET role=?, is_super_admin=0 WHERE id=?");
+            pt = con.prepareStatement("UPDATE users SET is_super_admin=0 WHERE id=?");
+            pt.setLong(1, userId);
+            pt.executeUpdate();
+            con.commit();
+            return "SUCCESS";
+        } catch (Exception e) {
+            if (con != null) con.rollback();
+            return "ERROR: " + e.getMessage();
+        } finally {
+            if (pt != null) pt.close();
+            if (con != null) con.close();
+        }
+    }
+
+    private String updateRole(long userId, String role, boolean superAdmin) throws Exception {
+        Connection con = null;
+        PreparedStatement pt = null;
+        try {
+            con = DBConnectionManager.getConnectionFromPool();
+            pt = con.prepareStatement("UPDATE users SET role=?, is_super_admin=? WHERE id=?");
             pt.setString(1, role);
-            pt.setLong(2, userId);
+            pt.setInt(2, superAdmin ? 1 : 0);
+            pt.setLong(3, userId);
             pt.executeUpdate();
             con.commit();
             return "SUCCESS";

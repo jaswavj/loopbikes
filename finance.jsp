@@ -15,7 +15,9 @@ String msg = request.getParameter("msg");
     <div class="row justify-content-center">
         <div class="col-lg-7">
             <div class="lb-form-card">
-                <% if (msg != null) { %><div class="alert alert-success"><i class="fas fa-check-circle me-2"></i><%= msg %></div><% } %>
+                <% if (msg != null) { %>
+                <div class="alert <%= msg.startsWith("ERROR") ? "alert-danger" : "alert-success" %>"><i class="fas fa-check-circle me-2"></i><%= msg.replace("+", " ") %></div>
+                <% } %>
                 <form action="<%= ctx %>/financeSave" method="post">
                     <div class="row g-3">
                         <div class="col-md-6"><label class="form-label">Full Name *</label><input type="text" name="name" class="form-control" required></div>

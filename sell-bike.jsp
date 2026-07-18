@@ -15,7 +15,9 @@ String msg = request.getParameter("msg");
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="lb-form-card">
-                <% if (msg != null) { %><div class="alert alert-success"><%= msg %></div><% } %>
+                <% if (msg != null) { %>
+                <div class="alert <%= msg.startsWith("ERROR") ? "alert-danger" : "alert-success" %>"><%= msg.replace("+", " ") %></div>
+                <% } %>
                 <form action="<%= ctx %>/upload" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="sellRequest">
                     <h5 class="mb-3" style="color:var(--navy)">Bike Details</h5>

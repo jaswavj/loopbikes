@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="fin" class="finance.financeBean" scope="page"/>
 <%
 request.setAttribute("pageTitle", "About LoopBikes - Second Hand Bike Dealer Nagercoil, Tirunelveli, Tuticorin");
 request.setAttribute("pageDesc", "LoopBikes is your trusted partner for buying, selling and financing second hand bikes in Nagercoil, Tirunelveli, Tuticorin and Kanyakumari district.");
 String ctx = request.getContextPath();
-String supportPhone = fin.getContactPhone();
+String supportPhone = new finance.financeBean().getContactPhone();
 %>
 <!DOCTYPE html>
 <html lang="en">
