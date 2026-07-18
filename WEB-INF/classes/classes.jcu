@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<workspace_user>
+	<active_project>
+		<label>classes</label>
+	</active_project>
+	<projects>
+		<project>
+			<label>classes</label>
+			<showfiles>false</showfiles>
+			<folderitem>
+				<path>admin</path>
+			</folderitem>
+			<folderitem>
+				<path>bike</path>
+			</folderitem>
+			<folderitem>
+				<path>finance</path>
+			</folderitem>
+			<folderitem>
+				<path>image</path>
+			</folderitem>
+			<folderitem>
+				<path>servlet</path>
+			</folderitem>
+			<folderitem>
+				<path>user</path>
+			</folderitem>
+			<folderitem>
+				<path>util</path>
+			</folderitem>
+		</project>
+	</projects>
+</workspace_user>
