@@ -10,9 +10,9 @@ if (request.getQueryString() != null) canonical += "?" + request.getQueryString(
 %>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/jpeg" href="<%= request.getContextPath() %>/assets/img/bikelogo.jpeg">
-<link rel="shortcut icon" type="image/jpeg" href="<%= request.getContextPath() %>/assets/img/bikelogo.jpeg">
-<link rel="apple-touch-icon" href="<%= request.getContextPath() %>/assets/img/bikelogo.jpeg">
+<link rel="icon" type="image/png" href="<%= request.getContextPath() %>/assets/img/loop.png">
+<link rel="shortcut icon" type="image/png" href="<%= request.getContextPath() %>/assets/img/loop.png">
+<link rel="apple-touch-icon" href="<%= request.getContextPath() %>/assets/img/loop.png">
 <title><%= pageTitle %></title>
 <meta name="description" content="<%= pageDesc %>">
 <meta name="keywords" content="<%= pageKeywords %>">
@@ -21,7 +21,7 @@ if (request.getQueryString() != null) canonical += "?" + request.getQueryString(
 <link rel="canonical" href="<%= canonical %>">
 <meta property="og:title" content="<%= pageTitle %>">
 <meta property="og:description" content="<%= pageDesc %>">
-<meta property="og:image" content="<%= request.getContextPath() %>/assets/img/bikelogo.jpeg">
+<meta property="og:image" content="<%= request.getContextPath() %>/assets/img/loop.png">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_IN">
 <meta name="geo.region" content="IN-TN">

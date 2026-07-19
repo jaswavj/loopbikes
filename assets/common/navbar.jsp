@@ -9,7 +9,9 @@ boolean isAdmin = "ADMIN".equals(sessionRole) || "1".equals(String.valueOf(sessi
 %>
 <nav class="navbar navbar-expand-lg lb-navbar">
     <div class="container">
-        <a class="navbar-brand" href="<%= request.getContextPath() %>/"><i class="fas fa-motorcycle me-2"></i>LoopBikes</a>
+        <a class="navbar-brand" href="<%= cp %>/">
+            <img src="<%= cp %>/assets/img/loop.png" alt="Loop Bikes" class="lb-brand-logo">
+        </a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#lbNav">
             <i class="fas fa-bars text-white"></i>
         </button>

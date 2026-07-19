@@ -48,10 +48,15 @@ a:hover { color: var(--gold); }
 }
 
 .lb-navbar .navbar-brand {
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--gold) !important;
-    letter-spacing: 0.5px;
+    padding: 0;
+}
+
+.lb-navbar .lb-brand-logo {
+    height: 48px;
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
+    display: block;
 }
 
 .lb-navbar .nav-link {
