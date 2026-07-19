@@ -20,7 +20,7 @@ String msg = request.getParameter("msg");
         <div class="col-lg-8">
             <div class="lb-form-card">
                 <% if (msg != null) { %><div class="alert alert-info"><%= msg %></div><% } %>
-                <form action="<%= ctx %>/upload" method="post" enctype="multipart/form-data">
+                <form id="uploadBikeForm" action="<%= ctx %>/upload" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="uploadBike">
                     <div class="row g-3">
                         <div class="col-md-6"><label class="form-label">Brand *</label>
@@ -39,7 +39,7 @@ String msg = request.getParameter("msg");
                         <div class="col-md-4"><label class="form-label">Price *</label><input type="number" name="price" class="form-control" required></div>
                         <div class="col-12"><label class="form-label">Description</label><textarea name="description" class="form-control" rows="2"></textarea></div>
                         <div class="col-md-6"><label class="form-label">Featured</label><select name="featured" class="form-select"><option value="0">No</option><option value="1">Yes</option></select></div>
-                        <div class="col-md-6"><label class="form-label">Images (max 10)</label><input type="file" name="images" class="form-control" accept="image/*" multiple></div>
+                        <div class="col-md-6"><label class="form-label">Images (max 10) *</label><input type="file" name="images" id="bikeImages" class="form-control" accept="image/*" multiple required></div>
                     </div>
                     <button type="submit" class="btn btn-gold w-100 mt-4">Upload Bike</button>
                 </form>
@@ -48,6 +48,13 @@ String msg = request.getParameter("msg");
     </div>
 </main>
 <script>
+document.getElementById('uploadBikeForm').addEventListener('submit', function(e) {
+    var files = document.getElementById('bikeImages').files;
+    if (!files || files.length === 0) {
+        e.preventDefault();
+        alert('Please upload at least one image.');
+    }
+});
 function loadModels(){
     var brandId=document.getElementById('brandId').value;
     var sel=document.getElementById('modelId');

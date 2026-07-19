@@ -5,10 +5,15 @@
     <display-name>LoopBikes</display-name>
     <description>Buy, Sell and Finance Second Hand Bikes - Nagercoil, Tirunelveli, Tuticorin</description>
 
+    <!-- uploadDir: leave empty to use ../uploadImages next to the loopbikes folder -->
     <context-param>
         <param-name>uploadDir</param-name>
-        <param-value>D:/MYFILES/bike/uploadImages</param-value>
+        <param-value></param-value>
     </context-param>
+
+    <listener>
+        <listener-class>util.AppInitListener</listener-class>
+    </listener>
 
     <resource-ref>
         <description>LoopBikes DB Connection</description>

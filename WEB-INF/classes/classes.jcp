@@ -24,7 +24,7 @@
 		</runtime>
 	</runtimes>
 	<libraries>
-		<library_ref>libr</library_ref>
+		<library_ref>loopbike</library_ref>
 	</libraries>
 	<files>
 		<include>
@@ -91,6 +91,10 @@
 			</fileitem>
 			<fileitem>
 				<path>util\AppConfig.java</path>
+				<folder>util</folder>
+			</fileitem>
+			<fileitem>
+				<path>util\AppInitListener.java</path>
 				<folder>util</folder>
 			</fileitem>
 			<fileitem>

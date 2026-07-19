@@ -24,6 +24,10 @@ public class UploadServlet extends HttpServlet {
                     resp.sendRedirect(ctx + "/login?msg=Admin+login+required");
                     return;
                 }
+                if (!hasUploadedImages(req)) {
+                    resp.sendRedirect(ctx + "/admin/upload-bike?msg=" + java.net.URLEncoder.encode("Please upload at least one image.", "UTF-8"));
+                    return;
+                }
                 bikeBean bike = new bikeBean();
                 String result = bike.uploadBike(
                     adminId,
@@ -89,6 +93,15 @@ public class UploadServlet extends HttpServlet {
         } else {
             resp.sendRedirect(ctx + "/sell-bike?msg=" + java.net.URLEncoder.encode(result, "UTF-8"));
         }
+    }
+
+    private boolean hasUploadedImages(HttpServletRequest req) throws Exception {
+        for (Part part : req.getParts()) {
+            if ("images".equals(part.getName()) && part.getSize() > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void uploadParts(HttpServletRequest req, String type, long refId) throws Exception {

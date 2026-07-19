@@ -18,7 +18,7 @@ public class ImageServlet extends HttpServlet {
             return;
         }
         String relativePath = pathInfo.substring(1);
-        File file = new File(AppConfig.UPLOAD_DIR, relativePath);
+        File file = new File(AppConfig.getUploadDir(), relativePath);
         if (!file.exists() || !file.isFile()) {
             resp.sendError(404);
             return;

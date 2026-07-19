@@ -34,7 +34,7 @@ public class imageBean {
             java.util.Calendar cal = java.util.Calendar.getInstance();
             String year = String.valueOf(cal.get(java.util.Calendar.YEAR));
             String month = String.format("%02d", cal.get(java.util.Calendar.MONTH) + 1);
-            File dir = new File(AppConfig.UPLOAD_DIR, "bike-images/" + year + "/" + month);
+            File dir = new File(AppConfig.getUploadDir(), "bike-images/" + year + "/" + month);
             if (!dir.exists()) dir.mkdirs();
 
             int order = existing + 1;
@@ -43,7 +43,7 @@ public class imageBean {
                 String uuid = UUID.randomUUID().toString();
                 String fileName = uuid + ".jpg";
                 String relativePath = "bike-images/" + year + "/" + month + "/" + fileName;
-                File dest = new File(AppConfig.UPLOAD_DIR, relativePath);
+                File dest = new File(AppConfig.getUploadDir(), relativePath);
 
                 resizeAndSave(src, dest);
                 saveImageRecord(con, refType, refId, relativePath, src.getName(), order, existing == 0 && order == 1);
