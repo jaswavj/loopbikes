@@ -29,11 +29,13 @@ String msg = request.getParameter("msg");
                 </form>
                 <hr>
                 <h5>Brands</h5>
+                <div class="admin-table-wrap">
                 <table class="table table-sm"><thead><tr><th>Name</th><th>Active</th><th>Action</th></tr></thead>
                 <tbody><% for (int i=0;i<brands.size();i++){ Vector b=(Vector)brands.get(i); %>
                 <tr><td><%= b.get(1) %></td><td><%= "1".equals(b.get(2).toString())?"Yes":"No" %></td>
                 <td><a href="<%= ctx %>/admin/saveBrandModel?toggleBrand=<%= b.get(0) %>" class="btn btn-sm btn-navy">Toggle</a></td></tr>
                 <% } %></tbody></table>
+                </div>
             </div>
         </div>
         <div class="col-md-7">
@@ -50,12 +52,14 @@ String msg = request.getParameter("msg");
                 </form>
                 <hr>
                 <h5>Models</h5>
+                <div class="admin-table-wrap">
                 <table class="table table-sm table-lb"><thead><tr><th>Brand</th><th>Model</th><th>CC</th><th>Active</th><th>Action</th></tr></thead>
                 <tbody><% for (int i=0;i<models.size();i++){ Vector m=(Vector)models.get(i); %>
                 <tr><td><%= m.get(2) %></td><td><%= m.get(3) %></td><td><%= m.get(4) %></td>
                 <td><%= "1".equals(m.get(5).toString())?"Yes":"No" %></td>
                 <td><a href="<%= ctx %>/admin/saveBrandModel?toggleModel=<%= m.get(0) %>" class="btn btn-sm btn-navy">Toggle</a></td></tr>
                 <% } %></tbody></table>
+                </div>
             </div>
         </div>
     </div>

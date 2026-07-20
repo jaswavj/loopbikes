@@ -11,7 +11,7 @@ String ctx = request.getContextPath();
 long targetUserId = Long.parseLong(request.getParameter("userId"));
 String action = request.getParameter("action");
 String tab = request.getParameter("tab") != null ? request.getParameter("tab") : "normal";
-String role = request.getParameter("role") != null ? request.getParameter("role") : "";
+String roleFilter = request.getParameter("role") != null ? request.getParameter("role") : "";
 String search = request.getParameter("search") != null ? request.getParameter("search") : "";
 
 if (userId != null && userId.longValue() == targetUserId
@@ -29,7 +29,7 @@ else result = "ERROR: Invalid action";
 
 String msg = result.startsWith("SUCCESS") ? "User+updated+successfully" : java.net.URLEncoder.encode(result, "UTF-8");
 String redirect = ctx + "/admin/users?tab=" + tab;
-if (!role.isEmpty()) redirect += "&role=" + java.net.URLEncoder.encode(role, "UTF-8");
+if (!roleFilter.isEmpty()) redirect += "&role=" + java.net.URLEncoder.encode(roleFilter, "UTF-8");
 if (!search.isEmpty()) redirect += "&search=" + java.net.URLEncoder.encode(search, "UTF-8");
 redirect += "&msg=" + msg;
 response.sendRedirect(redirect);

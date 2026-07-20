@@ -84,7 +84,7 @@ if (!search.isEmpty()) baseQuery += "&search=" + java.net.URLEncoder.encode(sear
         </li>
     </ul>
 
-    <div class="lb-form-card p-0 overflow-hidden">
+    <div class="lb-form-card p-0 admin-table-wrap">
         <table class="table table-lb mb-0">
             <thead>
                 <tr>

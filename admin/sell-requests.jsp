@@ -24,7 +24,7 @@ String msg = request.getParameter("msg");
         </select></div>
         <div class="col-auto"><button class="btn btn-gold">Filter</button></div>
     </form>
-    <div class="lb-form-card p-0 overflow-hidden">
+    <div class="lb-form-card p-0 admin-table-wrap">
         <table class="table table-lb mb-0">
             <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Bike</th><th>Reg</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
             <tbody>

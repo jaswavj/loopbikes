@@ -506,6 +506,52 @@ a:hover { color: var(--gold); }
 .table-lb thead { background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: white; }
 .table-lb thead th { border: none; font-weight: 600; padding: 0.85rem; }
 
+.admin-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    max-width: 100%;
+}
+
+.admin-table-wrap .table {
+    margin-bottom: 0;
+    width: 100%;
+    min-width: max-content;
+}
+
+.admin-table-wrap .table th,
+.admin-table-wrap .table td {
+    vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+    .admin-table-wrap {
+        border-radius: var(--radius);
+    }
+
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        border-bottom: 2px solid rgba(212, 175, 55, 0.35);
+    }
+
+    .nav-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-tabs .nav-item {
+        flex-shrink: 0;
+    }
+
+    .page-header-bar .container {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+}
+
 .status-chip {
     padding: 0.25rem 0.75rem;
     border-radius: 50px;

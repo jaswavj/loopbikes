@@ -19,7 +19,7 @@ String[] statusLabels = {"Pending","Under Review","Approved","Rejected","Contact
 <main class="container pb-5">
     <% if (msg != null) { %><div class="alert alert-success"><%= msg %></div><% } %>
     <a href="<%= ctx %>/sell-bike" class="btn btn-gold mb-3"><i class="fas fa-plus me-1"></i> New Sell Request</a>
-    <div class="lb-form-card p-0 overflow-hidden">
+    <div class="lb-form-card p-0 admin-table-wrap">
         <table class="table table-lb mb-0">
             <thead><tr><th>Brand</th><th>Model</th><th>Reg No</th><th>Year</th><th>Price</th><th>Status</th><th>Date</th></tr></thead>
             <tbody>
